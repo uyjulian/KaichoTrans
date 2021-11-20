@@ -1,7 +1,6 @@
 //---------------------------------------------------------------------------
 #include <windows.h>
 #include <math.h>
-#include "common.h"
 #include "tp_stub.h"
 #include "dim.h"
 
@@ -30,7 +29,9 @@ static void log(const tjs_char *format, ...)
 */
 //---------------------------------------------------------------------------
 
+#if 0
 #define USE_SSE2 // SSE2を使うなら定義
+#endif
 
 // ホントはtTVPUniversalTransHandlerを継承したかったんだけど、Headerで定義
 // されていないから断念。

@@ -2,7 +2,6 @@
 #include <windows.h>
 #include "tp_stub.h"
 #include <math.h>
-#include "common.h"
 #include "blur.h"
 
 // for __aligned_malloc()
@@ -35,7 +34,9 @@ static void log(const tjs_char *format, ...)
 */
 //---------------------------------------------------------------------------
 
+#if 0
 #define USE_SSE2 // SSE2を使うなら定義
+#endif
 
 
 class tTVPBlurTransHandler : public iTVPDivisibleTransHandler
