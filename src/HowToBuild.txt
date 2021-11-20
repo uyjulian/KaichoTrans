@@ -1,29 +1,29 @@
-KaichoTrans.dll‚ÌBuild•û–@ on VC++ 2010
+KaichoTrans.dllã®Buildæ–¹æ³• on VC++ 2010
 
-1. tp_stub.cppAcommon.hAtp_stub.h ‚ðA‹g—¢‹g—¢‚Ìƒ\[ƒX
-@ ƒR[ƒh‚©‚çƒRƒs[
+1. tp_stub.cppã€common.hã€tp_stub.h ã‚’ã€å‰é‡Œå‰é‡Œã®ã‚½ãƒ¼ã‚¹
+ã€€ ã‚³ãƒ¼ãƒ‰ã‹ã‚‰ã‚³ãƒ”ãƒ¼
 
-2. src/vc2010/KaichoTrans.sln‚ðVC++2010‚ÅŠJ‚­
+2. src/vc2010/KaichoTrans.slnã‚’VC++2010ã§é–‹ã
 
-3. ƒvƒƒWƒFƒNƒg‚ÌƒvƒƒpƒeƒBƒ_ƒCƒAƒƒO‚ÅA[C/C++]¨[ƒR[ƒh¶¬]¨
-@[ƒ‰ƒ“ƒ^ƒCƒ€ƒ‰ƒCƒuƒ‰ƒŠ]¨[ƒ}ƒ‹ƒ`ƒXƒŒƒbƒh(/MT)]‚ð‘I‘ð
-	‚±‚ê‚ð‚µ‚È‚¢‚ÆAVC++‚ðƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‚¢‚È‚¢ŠÂ‹«‚ÅA
-	ŽÀsŽž‚ÉuMSVCR100.dll‚ª‘¶Ý‚µ‚È‚¢v‚Æ‚¢‚¤ƒGƒ‰[‚ªo‚é
+3. ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã§ã€[C/C++]â†’[ã‚³ãƒ¼ãƒ‰ç”Ÿæˆ]â†’
+ã€€[ãƒ©ãƒ³ã‚¿ã‚¤ãƒ ãƒ©ã‚¤ãƒ–ãƒ©ãƒª]â†’[ãƒžãƒ«ãƒã‚¹ãƒ¬ãƒƒãƒ‰(/MT)]ã‚’é¸æŠž
+	ã“ã‚Œã‚’ã—ãªã„ã¨ã€VC++ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ã„ãªã„ç’°å¢ƒã§ã€
+	å®Ÿè¡Œæ™‚ã«ã€ŒMSVCR100.dllãŒå­˜åœ¨ã—ãªã„ã€ã¨ã„ã†ã‚¨ãƒ©ãƒ¼ãŒå‡ºã‚‹
 
-4. [Debug] ‚Å‚Í‚È‚­ [Release] ‚Å BuildB
+4. [Debug] ã§ã¯ãªã [Release] ã§ Buildã€‚
 
 
-Å“K‰»‚Æ‚©
-	[ƒvƒƒWƒFƒNƒg]¨[ƒvƒƒpƒeƒB]¨[\¬ƒvƒƒpƒeƒB]¨[C/C++]¨
-	[Å“K‰»]¨[Å“K‰»]‚É[Å‘åŒÀ‚ÌÅ“K‰»(/Ox)]‚ð‘I‘ðB
-	[Å“K‰»]¨[‘¬“x‚Ü‚½‚ÍƒTƒCƒY‚ð—Dæ]‚É[ŽÀs‘¬“x‚ð—Dæ(/Ot)]‚ð‘I‘ðB
-	[ƒR[ƒh¶¬]‚©‚çA[Šg’£–½—ßƒZƒbƒg‚ð—LŒø‚É‚·‚é]‚ÅSSE2‚ð‘I‘ð‚·‚é‚Æ
-	‚¿‚å‚Á‚ÆÅ“K‰»‚Å‚«‚é‚©‚àB
+æœ€é©åŒ–ã¨ã‹
+	[ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ]â†’[ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£]â†’[æ§‹æˆãƒ—ãƒ­ãƒ‘ãƒ†ã‚£]â†’[C/C++]â†’
+	[æœ€é©åŒ–]â†’[æœ€é©åŒ–]ã«[æœ€å¤§é™ã®æœ€é©åŒ–(/Ox)]ã‚’é¸æŠžã€‚
+	[æœ€é©åŒ–]â†’[é€Ÿåº¦ã¾ãŸã¯ã‚µã‚¤ã‚ºã‚’å„ªå…ˆ]ã«[å®Ÿè¡Œé€Ÿåº¦ã‚’å„ªå…ˆ(/Ot)]ã‚’é¸æŠžã€‚
+	[ã‚³ãƒ¼ãƒ‰ç”Ÿæˆ]ã‹ã‚‰ã€[æ‹¡å¼µå‘½ä»¤ã‚»ãƒƒãƒˆã‚’æœ‰åŠ¹ã«ã™ã‚‹]ã§SSE2ã‚’é¸æŠžã™ã‚‹ã¨
+	ã¡ã‚‡ã£ã¨æœ€é©åŒ–ã§ãã‚‹ã‹ã‚‚ã€‚
 
-Žl•ûŽR
-	EVC++2008‚¾‚ÆA‚È‚º‚©”•S‰ñƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚ðŒJ‚è•Ô‚·‚Æ
-	@_align_malloc()‚ÉŽ¸”s‚·‚é‚±‚Æ‚ª‚ ‚Á‚½‚Ì‚ÅAVC++2010‚É•ÏXB
-	@ƒR[ƒh‚Íˆês‚àˆá‚í‚È‚¢‚Ì‚É‚±‚Á‚¿‚¾‚ÆŽ¸”s‚µ‚È‚¢cB
-	EƒeƒXƒg‚µ‚Ä‚È‚¢‚¯‚ÇA#define USE_SSE2 ‚ðƒRƒƒ“ƒgƒAƒEƒg‚·‚é‚ÆA
-	@SSE2‚ðŽg‚í‚È‚¢ƒoƒCƒiƒŠ‚ª‚Å‚«‚é‚Í‚¸B‚Ç‚ñ‚¾‚¯’x‚¢‚©‘ÌŠ´‚·‚é‚Ì‚à
-	@ˆê‹»‚©‚ÆB
+å››æ–¹å±±
+	ãƒ»VC++2008ã ã¨ã€ãªãœã‹æ•°ç™¾å›žãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã‚’ç¹°ã‚Šè¿”ã™ã¨
+	ã€€_align_malloc()ã«å¤±æ•—ã™ã‚‹ã“ã¨ãŒã‚ã£ãŸã®ã§ã€VC++2010ã«å¤‰æ›´ã€‚
+	ã€€ã‚³ãƒ¼ãƒ‰ã¯ä¸€è¡Œã‚‚é•ã‚ãªã„ã®ã«ã“ã£ã¡ã ã¨å¤±æ•—ã—ãªã„â€¦ã€‚
+	ãƒ»ãƒ†ã‚¹ãƒˆã—ã¦ãªã„ã‘ã©ã€#define USE_SSE2 ã‚’ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã™ã‚‹ã¨ã€
+	ã€€SSE2ã‚’ä½¿ã‚ãªã„ãƒã‚¤ãƒŠãƒªãŒã§ãã‚‹ã¯ãšã€‚ã©ã‚“ã ã‘é…ã„ã‹ä½“æ„Ÿã™ã‚‹ã®ã‚‚
+	ã€€ä¸€èˆˆã‹ã¨ã€‚

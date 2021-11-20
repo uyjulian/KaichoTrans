@@ -11,7 +11,7 @@
 #include <new>
 
 /**
- * ƒƒOo—Í—p
+ * ãƒ­ã‚°å‡ºåŠ›ç”¨
  */
 #if 0
 #include <stdio.h>
@@ -29,69 +29,69 @@ static void log(const tjs_char *format, ...)
 
 //---------------------------------------------------------------------------
 /*
-	boxBlur ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“
-	2012/01/29	0.2.5.0	“®“I‚È‰æ–Ê‚Å‚àblur‚Å‚«‚éƒIƒvƒVƒ‡ƒ“dynamic‚ğ’Ç‰Á
-	2011/12/09	0.2.1.0	"bad alloc exception thrown"‚ğ‰ñ”ğc‚µ‚½‚Â‚à‚è
+	boxBlur ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³
+	2012/01/29	0.2.5.0	å‹•çš„ãªç”»é¢ã§ã‚‚blurã§ãã‚‹ã‚ªãƒ—ã‚·ãƒ§ãƒ³dynamicã‚’è¿½åŠ 
+	2011/12/09	0.2.1.0	"bad alloc exception thrown"ã‚’å›é¿â€¦ã—ãŸã¤ã‚‚ã‚Š
 */
 //---------------------------------------------------------------------------
 
-#define USE_SSE2 // SSE2‚ğg‚¤‚È‚ç’è‹`
+#define USE_SSE2 // SSE2ã‚’ä½¿ã†ãªã‚‰å®šç¾©
 
 
 class tTVPBlurTransHandler : public iTVPDivisibleTransHandler
 {
-	//	boxBlur ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒnƒ“ƒhƒ‰ƒNƒ‰ƒX‚ÌÀ‘•
+	//	boxBlur ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ©ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
 
-	tjs_int RefCount; // QÆƒJƒEƒ“ƒ^
+	tjs_int RefCount; // å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿
 	/*
-	 * iTVPDivisibleTransHandler ‚Í QÆƒJƒEƒ“ƒ^‚É‚æ‚éŠÇ—‚ğs‚¤
+	 * iTVPDivisibleTransHandler ã¯ å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã«ã‚ˆã‚‹ç®¡ç†ã‚’è¡Œã†
 	 */
 
 protected:
-	bool          First;		// ˆê”ÔÅ‰‚ÌŒÄ‚Ño‚µ‚©‚Ç‚¤‚©
-	bool          Dynamic;		// “®“I‚È‰æ‘œ‚É‘Î‰‚·‚é‚©‚Ç‚¤‚©
-	tjs_int64     StartTick;	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚ğŠJn‚µ‚½ tick count
-	tjs_int64     HalfTime;		// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚É—v‚·‚éŠÔ / 2
-	tjs_int64     Time;			// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚É—v‚·‚éŠÔ
-	tTVPLayerType LayerType;	// ƒŒƒCƒ„ƒ^ƒCƒv
-	tjs_int       Width;		// ˆ—‚·‚é‰æ‘œ‚Ì•
-	tjs_int       Height;		// ˆ—‚·‚é‰æ‘œ‚Ì‚‚³
+	bool          First;		// ä¸€ç•ªæœ€åˆã®å‘¼ã³å‡ºã—ã‹ã©ã†ã‹
+	bool          Dynamic;		// å‹•çš„ãªç”»åƒã«å¯¾å¿œã™ã‚‹ã‹ã©ã†ã‹
+	tjs_int64     StartTick;	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã—ãŸ tick count
+	tjs_int64     HalfTime;		// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã«è¦ã™ã‚‹æ™‚é–“ / 2
+	tjs_int64     Time;			// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã«è¦ã™ã‚‹æ™‚é–“
+	tTVPLayerType LayerType;	// ãƒ¬ã‚¤ãƒ¤ã‚¿ã‚¤ãƒ—
+	tjs_int       Width;		// å‡¦ç†ã™ã‚‹ç”»åƒã®å¹…
+	tjs_int       Height;		// å‡¦ç†ã™ã‚‹ç”»åƒã®é«˜ã•
 
-	tjs_int64     CurTime;		// Œ»İ‚Ì tick count
-	tjs_int       BlendRatio;	// ƒuƒŒƒ“ƒh”ä
+	tjs_int64     CurTime;		// ç¾åœ¨ã® tick count
+	tjs_int       BlendRatio;	// ãƒ–ãƒ¬ãƒ³ãƒ‰æ¯”
 
-	double        Accel;		// is‰Á‘¬“x(def=1.0)
-	double        CurRatio;		// Œ»İ‚Ìis”ä—¦(0`1.0)
+	double        Accel;		// é€²è¡ŒåŠ é€Ÿåº¦(def=1.0)
+	double        CurRatio;		// ç¾åœ¨ã®é€²è¡Œæ¯”ç‡(0ã€œ1.0)
 
-	typedef tjs_uint32 IPIXELTYPE;	// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚Ìƒhƒbƒgƒ^ƒCƒv
-	#define IPIXELCOLORNUM 4	// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚ÌƒJƒ‰[”(ARGB)
+	typedef tjs_uint32 IPIXELTYPE;	// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ãƒ‰ãƒƒãƒˆã‚¿ã‚¤ãƒ—
+	#define IPIXELCOLORNUM 4	// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ã‚«ãƒ©ãƒ¼æ•°(ARGB)
 	#define IPIXELSIZE (sizeof(IPIXELTYPE)*IPIXELCOLORNUM)
 
-	BYTE*         Iimg1;		// src1—pƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW
-	tjs_int       MaxXblur1, MaxYblur1; // src1‚ÌÅ‘åƒuƒ‰[•
-	tjs_int       Iimgwidth1;	// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚Ì‰¡•
-	tjs_int       Iimgheight1;	// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚Ìc•
-	tjs_int       Iimgpitch1;	// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚Ìc1ƒhƒbƒgŠÔ‚Ì·ˆÙƒoƒCƒg”
-	tjs_int       CurXblur1, CurYblur1; // src1‚ÌŒ»İ‚Ìƒuƒ‰[•
+	BYTE*         Iimg1;		// src1ç”¨ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸
+	tjs_int       MaxXblur1, MaxYblur1; // src1ã®æœ€å¤§ãƒ–ãƒ©ãƒ¼å¹…
+	tjs_int       Iimgwidth1;	// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã®æ¨ªå¹…
+	tjs_int       Iimgheight1;	// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ç¸¦å¹…
+	tjs_int       Iimgpitch1;	// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ç¸¦1ãƒ‰ãƒƒãƒˆé–“ã®å·®ç•°ãƒã‚¤ãƒˆæ•°
+	tjs_int       CurXblur1, CurYblur1; // src1ã®ç¾åœ¨ã®ãƒ–ãƒ©ãƒ¼å¹…
 
-	BYTE*         Iimg2;		// src2—pƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW
-	tjs_int       MaxXblur2, MaxYblur2;// src2‚ÌÅ‘åƒuƒ‰[•
-	tjs_int       Iimgwidth2;	// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚Ì‰¡•
-	tjs_int       Iimgheight2;	// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚Ìc•
-	tjs_int       Iimgpitch2;	// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚Ìc1ƒhƒbƒgŠÔ‚Ì·ˆÙƒoƒCƒg”
-	tjs_int       CurXblur2, CurYblur2; // src1‚ÌŒ»İ‚Ìƒuƒ‰[•
+	BYTE*         Iimg2;		// src2ç”¨ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸
+	tjs_int       MaxXblur2, MaxYblur2;// src2ã®æœ€å¤§ãƒ–ãƒ©ãƒ¼å¹…
+	tjs_int       Iimgwidth2;	// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã®æ¨ªå¹…
+	tjs_int       Iimgheight2;	// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ç¸¦å¹…
+	tjs_int       Iimgpitch2;	// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã®ç¸¦1ãƒ‰ãƒƒãƒˆé–“ã®å·®ç•°ãƒã‚¤ãƒˆæ•°
+	tjs_int       CurXblur2, CurYblur2; // src1ã®ç¾åœ¨ã®ãƒ–ãƒ©ãƒ¼å¹…
 
-	tjs_uint32    *bdst1, *bdst2; // src1/src2‚©‚çì‚Á‚½1ƒ‰ƒCƒ“•ª‚Ìƒeƒ“ƒ|ƒ‰ƒŠ‰æ‘œ
+	tjs_uint32    *bdst1, *bdst2; // src1/src2ã‹ã‚‰ä½œã£ãŸ1ãƒ©ã‚¤ãƒ³åˆ†ã®ãƒ†ãƒ³ãƒãƒ©ãƒªç”»åƒ
 BYTE* p;
-	// Œ»İ‚ÌRatio(0`1.0)‚ğ‹‚ß‚é
+	// ç¾åœ¨ã®Ratio(0ã€œ1.0)ã‚’æ±‚ã‚ã‚‹
 	inline double setCurrentRatio() //(tjs_int64 starttick=StartTick, tjs_int64 time=Time, tjs_int64 curtick=CurTime, double accel=Accel)
 	{
 		double ratio = (double)CurTime/Time;
-		// ratio = 0`1.0
+		// ratio = 0ã€œ1.0
 		ratio = (ratio < 0.0) ? 0.0 : (ratio > 1.0) ? 1.0 : ratio;
-		if(Accel > 1.0)				// ‰ºŒ·(Å‰’x‚­™X‚É‘‚­)
+		if(Accel > 1.0)				// ä¸‹å¼¦(æœ€åˆé…ãå¾ã€…ã«æ—©ã)
 			ratio = pow(ratio, Accel);
-		else if(Accel < -1.0) {	// ãŒ·(Å‰‘‚­™X‚É’x‚­)
+		else if(Accel < -1.0) {	// ä¸Šå¼¦(æœ€åˆæ—©ãå¾ã€…ã«é…ã)
 			ratio = 1.0 - ratio;
 			ratio = pow(ratio, -Accel);
 			ratio = 1.0 - ratio;
@@ -119,7 +119,7 @@ BYTE* p;
 			iTVPScanLineProvider *srcdat, tjs_int width, tjs_int height,
 			tjs_int xblur, tjs_int yblur);
 
-	// ƒƒ‚ƒŠŠm•Û‚Ìƒ‰ƒbƒpŠÖ”BTJSAlignedAlloc()‚ª‚·‚®bad_alloc‚É‚È‚é‚Ì‚Å
+	// ãƒ¡ãƒ¢ãƒªç¢ºä¿ã®ãƒ©ãƒƒãƒ‘é–¢æ•°ã€‚TJSAlignedAlloc()ãŒã™ãbad_allocã«ãªã‚‹ã®ã§
 	void *local_alloc(size_t size, size_t align=0)
 	{
 		void * p = _aligned_malloc(size, align);
@@ -127,14 +127,14 @@ BYTE* p;
 			throw(std::bad_alloc());
 		return p;
 	}
-	// “¯ã‚ÌfreeB
+	// åŒä¸Šã®freeã€‚
 	void local_free(void* p)
 	{
 		_aligned_free(p);
 	}
 
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	tTVPBlurTransHandler(tjs_uint64 time, tTVPLayerType layertype,
 		tjs_int width, tjs_int height,
 		tjs_int xblur1, tjs_int yblur1, tjs_int xblur2, tjs_int yblur2,
@@ -169,7 +169,7 @@ public:
 		bdst2       = (tjs_uint32*)local_alloc(Width*sizeof(*bdst2), 16);
 	}
 
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	virtual ~tTVPBlurTransHandler()
 	{
 		local_free(Iimg1);
@@ -180,16 +180,16 @@ public:
 
 	tjs_error TJS_INTF_METHOD AddRef()
 	{
-		// iTVPBaseTransHandler ‚Ì AddRef
-		// QÆƒJƒEƒ“ƒ^‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+		// iTVPBaseTransHandler ã® AddRef
+		// å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
 		RefCount ++;
 		return TJS_S_OK;
 	}
 
 	tjs_error TJS_INTF_METHOD Release()
 	{
-		// iTVPBaseTransHandler ‚Ì Release
-		// QÆƒJƒEƒ“ƒ^‚ğƒfƒNƒŠƒƒ“ƒg‚µA0 ‚É‚È‚é‚È‚ç‚Î delete this
+		// iTVPBaseTransHandler ã® Release
+		// å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã€0 ã«ãªã‚‹ãªã‚‰ã° delete this
 		if(RefCount == 1)
 			delete this;
 		else
@@ -202,8 +202,8 @@ public:
 			/*in*/iTVPSimpleOptionProvider *options // option provider
 		)
 	{
-		// iTVPBaseTransHandler ‚Ì SetOption
-		// ‚Æ‚­‚É‚â‚é‚±‚Æ‚È‚µ
+		// iTVPBaseTransHandler ã® SetOption
+		// ã¨ãã«ã‚„ã‚‹ã“ã¨ãªã—
 		return TJS_S_OK;
 	}
 
@@ -219,7 +219,7 @@ public:
 			iTVPScanLineProvider * src1,
 			iTVPScanLineProvider * src2)
 	{
-		*dest = src2; // í‚ÉÅI‰æ‘œ‚Í src2
+		*dest = src2; // å¸¸ã«æœ€çµ‚ç”»åƒã¯ src2
 		return TJS_S_OK;
 	}
 };
@@ -228,18 +228,18 @@ public:
 //---------------------------------------------------------------------------
 tjs_error TJS_INTF_METHOD tTVPBlurTransHandler::StartProcess(tjs_uint64 tick)
 {
-	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚Ì‰æ–ÊXVˆê‰ñ‚²‚Æ‚ÉŒÄ‚Î‚ê‚é
+	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®ç”»é¢æ›´æ–°ä¸€å›ã”ã¨ã«å‘¼ã°ã‚Œã‚‹
 
-	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚Ì‰æ–ÊXVˆê‰ñ‚É‚Â‚«A‚Ü‚¸Å‰‚É StartProcess ‚ªŒÄ‚Î‚ê‚é
-	// ‚»‚Ì‚ ‚Æ Process ‚ª•¡”‰ñŒÄ‚Î‚ê‚é ( —Ìˆæ‚ğ•ªŠ„ˆ—‚µ‚Ä‚¢‚éê‡ )
-	// ÅŒã‚É EndProcess ‚ªŒÄ‚Î‚ê‚é
+	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®ç”»é¢æ›´æ–°ä¸€å›ã«ã¤ãã€ã¾ãšæœ€åˆã« StartProcess ãŒå‘¼ã°ã‚Œã‚‹
+	// ãã®ã‚ã¨ Process ãŒè¤‡æ•°å›å‘¼ã°ã‚Œã‚‹ ( é ˜åŸŸã‚’åˆ†å‰²å‡¦ç†ã—ã¦ã„ã‚‹å ´åˆ )
+	// æœ€å¾Œã« EndProcess ãŒå‘¼ã°ã‚Œã‚‹
 
-	if (First)	// Å‰‚ÌÀs
+	if (First)	// æœ€åˆã®å®Ÿè¡Œ
 		StartTick = tick;
-	if (Dynamic)		// “®“I‰æ–ÊXV‚ª•K—v‚È‚çŸ‚àFirst‚É‚µ‚Ä
-		First = true;	// Integral Image‚ğÄì¬‚·‚éB’´–³‘ÊB
+	if (Dynamic)		// å‹•çš„ç”»é¢æ›´æ–°ãŒå¿…è¦ãªã‚‰æ¬¡ã‚‚Firstã«ã—ã¦
+		First = true;	// Integral Imageã‚’å†ä½œæˆã™ã‚‹ã€‚è¶…ç„¡é§„ã€‚
 
-	// ‰æ‘œ‰‰Z‚É•K—v‚ÈŠeƒpƒ‰ƒ[ƒ^‚ğŒvZ
+	// ç”»åƒæ¼”ç®—ã«å¿…è¦ãªå„ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨ˆç®—
 	CurTime = ((tjs_int64)tick - StartTick);
 	if (CurTime > Time) CurTime = Time;
 
@@ -259,17 +259,17 @@ tjs_error TJS_INTF_METHOD tTVPBlurTransHandler::StartProcess(tjs_uint64 tick)
 //---------------------------------------------------------------------------
 tjs_error TJS_INTF_METHOD tTVPBlurTransHandler::EndProcess()
 {
-	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚Ì‰æ–ÊXVˆê‰ñ•ª‚ªI‚í‚é‚²‚Æ‚ÉŒÄ‚Î‚ê‚é
+	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®ç”»é¢æ›´æ–°ä¸€å›åˆ†ãŒçµ‚ã‚ã‚‹ã”ã¨ã«å‘¼ã°ã‚Œã‚‹
 
-	if(BlendRatio == 255) return TJS_S_FALSE; // ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“I—¹
+	if(BlendRatio == 255) return TJS_S_FALSE; // ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³çµ‚äº†
 
 	return TJS_S_TRUE;
 }
 
 
 /*
- * ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW(=dst)‚É src ‚©‚çŒvZ‚µ‚Äˆêƒ‰ƒCƒ“•ª’Ç‰Á‚·‚é
- * dst‚É‚Íƒƒ‚ƒŠ‚ÍŠù‚ÉŠm•Û‚³‚ê‚Ä‚¢‚é‚à‚Ì‚Æ‚·‚é
+ * ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸(=dst)ã« src ã‹ã‚‰è¨ˆç®—ã—ã¦ä¸€ãƒ©ã‚¤ãƒ³åˆ†è¿½åŠ ã™ã‚‹
+ * dstã«ã¯ãƒ¡ãƒ¢ãƒªã¯æ—¢ã«ç¢ºä¿ã•ã‚Œã¦ã„ã‚‹ã‚‚ã®ã¨ã™ã‚‹
  */
 void tTVPBlurTransHandler::addALineToIntegralImage32(
 		IPIXELTYPE *dst, IPIXELTYPE *dstprev, tjs_uint32 *src, tjs_int srcwidth, tjs_int xblur)
@@ -284,7 +284,7 @@ void tTVPBlurTransHandler::addALineToIntegralImage32(
 		*dst++ = b_sum + *dstprev++;
 		*dst++ = g_sum + *dstprev++;
 		*dst++ = r_sum + *dstprev++;
-		dst++, dstprev++;	// ‹ó‚«•ª‚ğƒXƒLƒbƒv
+		dst++, dstprev++;	// ç©ºãåˆ†ã‚’ã‚¹ã‚­ãƒƒãƒ—
 	}
 	for (int x = 0; x < srcwidth-1; x++) {
 		col = *src++;
@@ -294,7 +294,7 @@ void tTVPBlurTransHandler::addALineToIntegralImage32(
 		*dst++ = b_sum + *dstprev++;
 		*dst++ = g_sum + *dstprev++;
 		*dst++ = r_sum + *dstprev++;
-		dst++, dstprev++;	// ‹ó‚«•ª‚ğƒXƒLƒbƒv
+		dst++, dstprev++;	// ç©ºãåˆ†ã‚’ã‚¹ã‚­ãƒƒãƒ—
 	}
 	col = *src++;
 	for (int x = srcwidth-1; x < srcwidth+xblur; x++) {
@@ -304,16 +304,16 @@ void tTVPBlurTransHandler::addALineToIntegralImage32(
 		*dst++ = b_sum + *dstprev++;
 		*dst++ = g_sum + *dstprev++;
 		*dst++ = r_sum + *dstprev++;
-		dst++, dstprev++;	// ‹ó‚«•ª‚ğƒXƒLƒbƒv
+		dst++, dstprev++;	// ç©ºãåˆ†ã‚’ã‚¹ã‚­ãƒƒãƒ—
 	}
 #else
-	// ƒCƒ“ƒ‰ƒCƒ“ƒAƒZƒ“ƒuƒ‰‚ÍƒNƒ‰ƒXƒƒ“ƒo•Ï”‚ÉƒAƒNƒZƒX‚Å‚«‚È‚¢(‚·‚é‚Æ‰½‚àŒ¾‚í‚¸‚É•Ï‚È’l‚É‚È‚é)
-	// ‚Ì‚ÅAƒ[ƒJƒ‹•Ï”‚É‚Ì‚İƒAƒNƒZƒX‚µ‚Ä‚¢‚é‚±‚Æ‚É’ˆÓ
+	// ã‚¤ãƒ³ãƒ©ã‚¤ãƒ³ã‚¢ã‚»ãƒ³ãƒ–ãƒ©ã¯ã‚¯ãƒ©ã‚¹ãƒ¡ãƒ³ãƒå¤‰æ•°ã«ã‚¢ã‚¯ã‚»ã‚¹ã§ããªã„(ã™ã‚‹ã¨ä½•ã‚‚è¨€ã‚ãšã«å¤‰ãªå€¤ã«ãªã‚‹)
+	// ã®ã§ã€ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã«ã®ã¿ã‚¢ã‚¯ã‚»ã‚¹ã—ã¦ã„ã‚‹ã“ã¨ã«æ³¨æ„
 	__asm {
 		mov			esi,  src
 		mov			edi,  dst
-		pxor		xmm1, xmm1	// unpack—p
-		pxor		xmm2, xmm2	// sum—p
+		pxor		xmm1, xmm1	// unpackç”¨
+		pxor		xmm2, xmm2	// sumç”¨
 		mov			ebx,  dstprev
 		mov			ecx,  xblur
 		inc			ecx
@@ -360,7 +360,7 @@ void tTVPBlurTransHandler::addALineToIntegralImage32(
 }
 
 /*
- * ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW(=src)‚ğŒ³‚Édst‚Éˆêƒ‰ƒCƒ“•`‰æ‚·‚é
+ * ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸(=src)ã‚’å…ƒã«dstã«ä¸€ãƒ©ã‚¤ãƒ³æç”»ã™ã‚‹
  */
 void tTVPBlurTransHandler::drawALineFromIntegralImageToImage32(
 		tjs_uint32 *dst, tjs_int dstwidth, IPIXELTYPE *src1, IPIXELTYPE *src2, tjs_int xblur, tjs_int sq)
@@ -378,8 +378,8 @@ void tTVPBlurTransHandler::drawALineFromIntegralImageToImage32(
 	}
 #else
 	int xblurwidthsize = (xblur*2+1)*IPIXELSIZE;
-	// ‚±‚±«‚Å rsqf ‚ª 1/sq ‚Å‚È‚¢‚Ì‚ÍAŒvZ‚É(’P¸“x¬”“_‚Å)Œë·‚ª‘å‚«‰ß‚¬‚Ä
-	// ‰æ‘œ‚ª•Ï‚É‚È‚é‚±‚Æ‚ª‚ ‚é‚©‚çBF‚ğ‰ÁZ‚µ‚½‚à‚Ì‚ÉŒ…‚ª‹ß‚¢•û‚ªŒë·‚ª­‚È‚¢‚½‚ßB
+	// ã“ã“â†“ã§ rsqf ãŒ 1/sq ã§ãªã„ã®ã¯ã€è¨ˆç®—æ™‚ã«(å˜ç²¾åº¦å°æ•°ç‚¹ã§)èª¤å·®ãŒå¤§ãéãã¦
+	// ç”»åƒãŒå¤‰ã«ãªã‚‹ã“ã¨ãŒã‚ã‚‹ã‹ã‚‰ã€‚è‰²ã‚’åŠ ç®—ã—ãŸã‚‚ã®ã«æ¡ãŒè¿‘ã„æ–¹ãŒèª¤å·®ãŒå°‘ãªã„ãŸã‚ã€‚
 	float rsqf = (float)(1<<16)/sq;
 	__asm {
 		mov			esi,  src1
@@ -391,7 +391,7 @@ void tTVPBlurTransHandler::drawALineFromIntegralImageToImage32(
 		pshufd		xmm1, xmm1, 0x0
 		mov			ecx,  dstwidth
 		sar			ecx,  2
-		// Å‰‚É 4dot ‚²‚Æ‚Éˆ—‚·‚éB‚±‚ê‚ÅƒXƒs[ƒh“ñŠ„‘‚µB
+		// æœ€åˆã« 4dot ã”ã¨ã«å‡¦ç†ã™ã‚‹ã€‚ã“ã‚Œã§ã‚¹ãƒ”ãƒ¼ãƒ‰äºŒå‰²å¢—ã—ã€‚
 	BOXBLUR_LOOP1:
 		movdqa		xmm0, [esi]
 		paddd		xmm0, [edx+ebx]
@@ -455,7 +455,7 @@ void tTVPBlurTransHandler::drawALineFromIntegralImageToImage32(
 		dec			ecx
 		jnz			BOXBLUR_LOOP1
 
-		// c‚èƒhƒbƒg‚ğˆ—
+		// æ®‹ã‚Šãƒ‰ãƒƒãƒˆã‚’å‡¦ç†
 		mov			ecx,  dstwidth
 		and			ecx,  3
 		jz			BOXBLUR_LOOP_END
@@ -481,20 +481,20 @@ void tTVPBlurTransHandler::drawALineFromIntegralImageToImage32(
 }
 
 /*
- * buildIntegralImage: ‰æ‘œ‚©‚çƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚ğì¬‚·‚é
+ * buildIntegralImage: ç”»åƒã‹ã‚‰ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ä½œæˆã™ã‚‹
  */
 void tTVPBlurTransHandler::buildIntegralImage32(
 		IPIXELTYPE *dst, tjs_int dstpitch,
 		iTVPScanLineProvider *srcdat, tjs_int width, tjs_int height,
 		tjs_int xblur, tjs_int yblur)
 {
-	// iimgp ‚Í ‰æ–Ê‚Éc‰¡ƒuƒ‰[+1‚Æcˆêƒhƒbƒg‚ğ’Ç‰Á‚µ‚½‘å‚«‚ß‰æ–ÊB
-	// Å‰‚Ì—ñ‚Í0‚Å–„‚ß‚é
+	// iimgp ã¯ ç”»é¢ã«ç¸¦æ¨ªãƒ–ãƒ©ãƒ¼+1ã¨ç¸¦ä¸€ãƒ‰ãƒƒãƒˆã‚’è¿½åŠ ã—ãŸå¤§ãã‚ç”»é¢ã€‚
+	// æœ€åˆã®åˆ—ã¯0ã§åŸ‹ã‚ã‚‹
 	for	(int x = -xblur-1; x < width+xblur; x++)
 		*dst++ = 0, *dst++ = 0, *dst++ = 0, dst++;
-	// Ÿ‚©‚ç‚Ì—ñ‚Íu‚±‚±‚Ü‚Å‚Ì˜av{uˆê‚Âã‚Ì’lv
+	// æ¬¡ã‹ã‚‰ã®åˆ—ã¯ã€Œã“ã“ã¾ã§ã®å’Œã€ï¼‹ã€Œä¸€ã¤ä¸Šã®å€¤ã€
 	tjs_uint32 *src;
-	srcdat->GetScanLine(0, (const void**)&src);	// ’j‚ç‚µ‚­ƒGƒ‰[ƒ`ƒFƒbƒN‚µ‚È‚¢
+	srcdat->GetScanLine(0, (const void**)&src);	// ç”·ã‚‰ã—ãã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯ã—ãªã„
 //log(L"dst=0x%08x, dstpitch=%d, src=0x%08x, width=%d, height=%d, xblur=%d, yblur=%d", 
 //	dst, dstpitch, src, width, height, xblur, yblur);
 	for (int y = -yblur-1; y < 0; y++) {
@@ -502,11 +502,11 @@ void tTVPBlurTransHandler::buildIntegralImage32(
 		dst = (IPIXELTYPE*)((BYTE*)dst + dstpitch);
 	}
 	for (int y = 0; y < height-1; y++) {
-		srcdat->GetScanLine(y, (const void**)&src);	// ’j‚ç‚µ‚­ƒGƒ‰[ƒ`ƒFƒbƒN‚µ‚È‚¢
+		srcdat->GetScanLine(y, (const void**)&src);	// ç”·ã‚‰ã—ãã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯ã—ãªã„
 		addALineToIntegralImage32(dst, (tjs_uint32*)((BYTE*)dst-dstpitch), src, width, xblur);
 		dst = (IPIXELTYPE*)((BYTE*)dst + dstpitch);
 	}
-	srcdat->GetScanLine(height-1, (const void**)&src);	// ’j‚ç‚µ‚­ƒGƒ‰[ƒ`ƒFƒbƒN‚µ‚È‚¢
+	srcdat->GetScanLine(height-1, (const void**)&src);	// ç”·ã‚‰ã—ãã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯ã—ãªã„
 	for (int y = height; y < height+yblur; y++) {
 		addALineToIntegralImage32(dst, (tjs_uint32*)((BYTE*)dst-dstpitch), src, width, xblur);
 		dst = (IPIXELTYPE*)((BYTE*)dst + dstpitch);
@@ -518,14 +518,14 @@ void tTVPBlurTransHandler::buildIntegralImage32(
 tjs_error TJS_INTF_METHOD tTVPBlurTransHandler::Process(
 			tTVPDivisibleData *data)
 {
-	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚ÌŠe—Ìˆæ‚²‚Æ‚ÉŒÄ‚Î‚ê‚é
-	// ‹g—¢‹g—¢‚Í‰æ–Ê‚ğXV‚·‚é‚Æ‚«‚É‚¢‚­‚Â‚©‚Ì—Ìˆæ‚É•ªŠ„‚µ‚È‚ª‚çˆ—‚ğs‚¤‚Ì‚Å
-	// ‚±‚Ìƒƒ\ƒbƒh‚Í’ÊíA‰æ–ÊXVˆê‰ñ‚É‚Â‚«•¡”‰ñŒÄ‚Î‚ê‚é
+	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®å„é ˜åŸŸã”ã¨ã«å‘¼ã°ã‚Œã‚‹
+	// å‰é‡Œå‰é‡Œã¯ç”»é¢ã‚’æ›´æ–°ã™ã‚‹ã¨ãã«ã„ãã¤ã‹ã®é ˜åŸŸã«åˆ†å‰²ã—ãªãŒã‚‰å‡¦ç†ã‚’è¡Œã†ã®ã§
+	// ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯é€šå¸¸ã€ç”»é¢æ›´æ–°ä¸€å›ã«ã¤ãè¤‡æ•°å›å‘¼ã°ã‚Œã‚‹
 
-	// data ‚É‚Í—Ìˆæ‚â‰æ‘œ‚ÉŠÖ‚·‚éî•ñ‚ª“ü‚Á‚Ä‚¢‚é
+	// data ã«ã¯é ˜åŸŸã‚„ç”»åƒã«é–¢ã™ã‚‹æƒ…å ±ãŒå…¥ã£ã¦ã„ã‚‹
 
-	if (First) {	// Å‰‚ÌÀs
-		// ‰‰ñ‚ÍAƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚ğì‚éB
+	if (First) {	// æœ€åˆã®å®Ÿè¡Œ
+		// åˆå›ã¯ã€ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚’ä½œã‚‹ã€‚
 		buildIntegralImage32((IPIXELTYPE*)Iimg1, Iimgpitch1, data->Src1, Width, Height, MaxXblur1, MaxYblur1);
 		buildIntegralImage32((IPIXELTYPE*)Iimg2, Iimgpitch2, data->Src2, Width, Height, MaxXblur2, MaxYblur2);
 		First = false;
@@ -535,27 +535,27 @@ tjs_error TJS_INTF_METHOD tTVPBlurTransHandler::Process(
 //		Iimg2, Iimgwidth2, Iimgheight2, Iimgpitch2, MaxXblur2, MaxYblur2);
 	}
 
-	// ‚±‚±‚©‚ç boxBlur
+	// ã“ã“ã‹ã‚‰ boxBlur
 	int sq1 = (CurXblur1*2+1)*(CurYblur1*2+1), sq2 = (CurXblur2*2+1)*(CurYblur2*2+1);
-	// ƒ‰ƒCƒ“‚²‚Æ‚Éˆ—
+	// ãƒ©ã‚¤ãƒ³ã”ã¨ã«å‡¦ç†
 	for (int n = 0; n < data->Height; n++) {
 		int	dstx = data->DestLeft;
 		int	dsty = data->DestTop + n;
 		int srcx = data->Left;
 		int srcy = data->Top + n;
-		// bdst1 ‚É src1 ‚©‚ç‚Ìˆêƒ‰ƒCƒ“•ª‚ÌBlurŒã”z—ñ‚ğ‹‚ß‚é
+		// bdst1 ã« src1 ã‹ã‚‰ã®ä¸€ãƒ©ã‚¤ãƒ³åˆ†ã®Blurå¾Œé…åˆ—ã‚’æ±‚ã‚ã‚‹
 		IPIXELTYPE *src_u, *src_d;
-		src_u = (IPIXELTYPE*)getIimg1Addr(srcx-(CurXblur1+1), srcy-(CurYblur1+1));	// ãŠî€
-		src_d = (IPIXELTYPE*)getIimg1Addr(srcx-(CurXblur1+1), srcy+(CurYblur1+0));	// ‰ºŠî€
+		src_u = (IPIXELTYPE*)getIimg1Addr(srcx-(CurXblur1+1), srcy-(CurYblur1+1));	// ä¸ŠåŸºæº–
+		src_d = (IPIXELTYPE*)getIimg1Addr(srcx-(CurXblur1+1), srcy+(CurYblur1+0));	// ä¸‹åŸºæº–
 		drawALineFromIntegralImageToImage32(bdst1, data->Width, src_u, src_d, CurXblur1, sq1);
-		// bdst2 ‚É src2 ‚©‚ç‚Ìˆêƒ‰ƒCƒ“•ª‚ÌBlurŒã”z—ñ‚ğ‹‚ß‚é
-		src_u = (IPIXELTYPE*)getIimg2Addr(srcx-(CurXblur2+1), srcy-(CurYblur2+1));	// ãŠî€
-		src_d = (IPIXELTYPE*)getIimg2Addr(srcx-(CurXblur2+1), srcy+(CurYblur2+0));	// ‰ºŠî€
+		// bdst2 ã« src2 ã‹ã‚‰ã®ä¸€ãƒ©ã‚¤ãƒ³åˆ†ã®Blurå¾Œé…åˆ—ã‚’æ±‚ã‚ã‚‹
+		src_u = (IPIXELTYPE*)getIimg2Addr(srcx-(CurXblur2+1), srcy-(CurYblur2+1));	// ä¸ŠåŸºæº–
+		src_d = (IPIXELTYPE*)getIimg2Addr(srcx-(CurXblur2+1), srcy+(CurYblur2+0));	// ä¸‹åŸºæº–
 		drawALineFromIntegralImageToImage32(bdst2, data->Width, src_u, src_d, CurXblur2, sq2);
 
 		tjs_uint32 *dst;
 		data->Dest->GetScanLineForWrite(data->DestTop+n, (void**)&dst);
-		// ‚ÅA‚±‚±‚Åbdst1‚Æbdst2‚ğ‡¬‚µ‚Â‚Âdst‚É“]‘—‚·‚é
+		// ã§ã€ã“ã“ã§bdst1ã¨bdst2ã‚’åˆæˆã—ã¤ã¤dstã«è»¢é€ã™ã‚‹
 		if (LayerType == ltAlpha) {
 			TVPConstAlphaBlend_SD_d(dst+data->DestLeft-data->Left,
 									bdst1, bdst2, data->Width, BlendRatio);
@@ -577,23 +577,23 @@ tjs_error TJS_INTF_METHOD tTVPBlurTransHandler::Process(
 //---------------------------------------------------------------------------
 class tTVPBlurTransHandlerProvider : public iTVPTransHandlerProvider
 {
-	tjs_uint RefCount; // QÆƒJƒEƒ“ƒ^
+	tjs_uint RefCount; // å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿
 public:
 	tTVPBlurTransHandlerProvider() { RefCount = 1; }
 	~tTVPBlurTransHandlerProvider() {; }
 
 	tjs_error TJS_INTF_METHOD AddRef()
 	{
-		// iTVPBaseTransHandler ‚Ì AddRef
-		// QÆƒJƒEƒ“ƒ^‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+		// iTVPBaseTransHandler ã® AddRef
+		// å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
 		RefCount ++;
 		return TJS_S_OK;
 	}
 
 	tjs_error TJS_INTF_METHOD Release()
 	{
-		// iTVPBaseTransHandler ‚Ì Release
-		// QÆƒJƒEƒ“ƒ^‚ğƒfƒNƒŠƒƒ“ƒg‚µA0 ‚É‚È‚é‚È‚ç‚Î delete this
+		// iTVPBaseTransHandler ã® Release
+		// å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã€0 ã«ãªã‚‹ãªã‚‰ã° delete this
 		if(RefCount == 1)
 			delete this;
 		else
@@ -604,7 +604,7 @@ public:
 	tjs_error TJS_INTF_METHOD GetName(
 			/*out*/const tjs_char ** name)
 	{
-		// ‚±‚Ìƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚Ì–¼‘O‚ğ•Ô‚·
+		// ã“ã®ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®åå‰ã‚’è¿”ã™
 		if(name) *name = TJS_W("blur");
 		return TJS_S_OK;
 	}
@@ -628,10 +628,10 @@ public:
 		if(!options) return TJS_E_FAIL;
 
 		if(src1w != src2w || src1h != src2h)
-			return TJS_E_FAIL; // src1 ‚Æ src2 ‚ÌƒTƒCƒY‚ªˆê’v‚µ‚Ä‚¢‚È‚¢‚Æ‘Ê–Ú
+			return TJS_E_FAIL; // src1 ã¨ src2 ã®ã‚µã‚¤ã‚ºãŒä¸€è‡´ã—ã¦ã„ãªã„ã¨é§„ç›®
 
 
-		// ƒIƒvƒVƒ‡ƒ“‚ğ“¾‚é
+		// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹
 		tTJSVariant tmp;
 		tjs_uint64 time;
 		tjs_uint32 xblur1 = 32, yblur1 = 32;
@@ -640,10 +640,10 @@ public:
 		bool dynamic = false;
 
 		if(TJS_FAILED(options->GetValue(TJS_W("time"), &tmp)))
-			return TJS_E_FAIL; // time ‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢
+			return TJS_E_FAIL; // time å±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„
 		if(tmp.Type() == tvtVoid) return TJS_E_FAIL;
 		time = (tjs_int64)tmp;
-		if(time < 2) time = 2; // ‚ ‚Ü‚è¬‚³‚È”’l‚ğw’è‚·‚é‚Æ–â‘è‚ª‹N‚«‚é‚Ì‚Å
+		if(time < 2) time = 2; // ã‚ã¾ã‚Šå°ã•ãªæ•°å€¤ã‚’æŒ‡å®šã™ã‚‹ã¨å•é¡ŒãŒèµ·ãã‚‹ã®ã§
 
 		if(TJS_SUCCEEDED(options->GetValue(TJS_W("blur1x"), &tmp)))
 			if(tmp.Type() != tvtVoid) xblur1 = (tjs_int)tmp;
@@ -665,7 +665,7 @@ public:
 		if(TJS_SUCCEEDED(options->GetValue(TJS_W("dynamic"), &tmp)))
 			if(tmp.Type() != tvtVoid) dynamic = ((tjs_int)tmp != 0);
 
-		// ƒIƒuƒWƒFƒNƒg‚ğì¬
+		// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆ
 		*handler = new tTVPBlurTransHandler(time, layertype,
 			src1w, src1h,
 			xblur1, yblur1, xblur2, yblur2,
@@ -678,16 +678,16 @@ public:
 //---------------------------------------------------------------------------
 void RegisterBlurTransHandlerProvider()
 {
-	// TVPAddTransHandlerProvider ‚ğg‚Á‚Äƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒnƒ“ƒhƒ‰ƒvƒƒoƒCƒ_‚ğ
-	// “o˜^‚·‚é
+	// TVPAddTransHandlerProvider ã‚’ä½¿ã£ã¦ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ©ãƒ—ãƒ­ãƒã‚¤ãƒ€ã‚’
+	// ç™»éŒ²ã™ã‚‹
 	BlurTransHandlerProvider = new tTVPBlurTransHandlerProvider();
 	TVPAddTransHandlerProvider(BlurTransHandlerProvider);
 }
 //---------------------------------------------------------------------------
 void UnregisterBlurTransHandlerProvider()
 {
-	// TVPRemoveTransHandlerProvider ‚ğg‚Á‚Äƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒnƒ“ƒhƒ‰ƒvƒƒoƒCƒ_‚ğ
-	// “o˜^–•Á‚·‚é
+	// TVPRemoveTransHandlerProvider ã‚’ä½¿ã£ã¦ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ©ãƒ—ãƒ­ãƒã‚¤ãƒ€ã‚’
+	// ç™»éŒ²æŠ¹æ¶ˆã™ã‚‹
 	TVPRemoveTransHandlerProvider(BlurTransHandlerProvider);
 	BlurTransHandlerProvider->Release();
 }

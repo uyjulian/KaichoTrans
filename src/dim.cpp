@@ -7,7 +7,7 @@
 
 
 /**
- * ƒƒOo—Í—p
+ * ãƒ­ã‚°å‡ºåŠ›ç”¨
  */
 #if 0
 #include <stdio.h>
@@ -25,51 +25,51 @@ static void log(const tjs_char *format, ...)
 
 //---------------------------------------------------------------------------
 /*
-	Dim ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“
-	2011/12/09	0.2.1.0	‰ŠúƒŠƒŠ[ƒX
+	Dim ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³
+	2011/12/09	0.2.1.0	åˆæœŸãƒªãƒªãƒ¼ã‚¹
 */
 //---------------------------------------------------------------------------
 
-#define USE_SSE2 // SSE2‚ğg‚¤‚È‚ç’è‹`
+#define USE_SSE2 // SSE2ã‚’ä½¿ã†ãªã‚‰å®šç¾©
 
-// ƒzƒ“ƒg‚ÍtTVPUniversalTransHandler‚ğŒp³‚µ‚½‚©‚Á‚½‚ñ‚¾‚¯‚ÇAHeader‚Å’è‹`
-// ‚³‚ê‚Ä‚¢‚È‚¢‚©‚ç’f”OB
+// ãƒ›ãƒ³ãƒˆã¯tTVPUniversalTransHandlerã‚’ç¶™æ‰¿ã—ãŸã‹ã£ãŸã‚“ã ã‘ã©ã€Headerã§å®šç¾©
+// ã•ã‚Œã¦ã„ãªã„ã‹ã‚‰æ–­å¿µã€‚
 class tTVPDimTransHandler : public iTVPDivisibleTransHandler
 {
-	//	boxDim ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒnƒ“ƒhƒ‰ƒNƒ‰ƒX‚ÌÀ‘•
+	//	boxDim ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ©ã‚¯ãƒ©ã‚¹ã®å®Ÿè£…
 
-	tjs_int RefCount; // QÆƒJƒEƒ“ƒ^
+	tjs_int RefCount; // å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿
 	/*
-	 * iTVPDivisibleTransHandler ‚Í QÆƒJƒEƒ“ƒ^‚É‚æ‚éŠÇ—‚ğs‚¤
+	 * iTVPDivisibleTransHandler ã¯ å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã«ã‚ˆã‚‹ç®¡ç†ã‚’è¡Œã†
 	 */
 
 protected:
-	bool          First;		// ˆê”ÔÅ‰‚ÌŒÄ‚Ño‚µ‚©‚Ç‚¤‚©
-	tjs_int64     StartTick;	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚ğŠJn‚µ‚½ tick count
-	tjs_int64     Time;			// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚É—v‚·‚éŠÔ
-	tTVPLayerType LayerType;	// ƒŒƒCƒ„ƒ^ƒCƒv
-	tjs_int       Width;		// ˆ—‚·‚é‰æ‘œ‚Ì•
-	tjs_int       Height;		// ˆ—‚·‚é‰æ‘œ‚Ì‚‚³
+	bool          First;		// ä¸€ç•ªæœ€åˆã®å‘¼ã³å‡ºã—ã‹ã©ã†ã‹
+	tjs_int64     StartTick;	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã‚’é–‹å§‹ã—ãŸ tick count
+	tjs_int64     Time;			// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã«è¦ã™ã‚‹æ™‚é–“
+	tTVPLayerType LayerType;	// ãƒ¬ã‚¤ãƒ¤ã‚¿ã‚¤ãƒ—
+	tjs_int       Width;		// å‡¦ç†ã™ã‚‹ç”»åƒã®å¹…
+	tjs_int       Height;		// å‡¦ç†ã™ã‚‹ç”»åƒã®é«˜ã•
 
-	tjs_int64     CurTime;		// Œ»İ‚Ì tick count(0`Time)
-	tjs_int       Phase;		// Œ»İ‚ÌƒtƒF[ƒY(0`Vague+255)
+	tjs_int64     CurTime;		// ç¾åœ¨ã® tick count(0ã€œTime)
+	tjs_int       Phase;		// ç¾åœ¨ã®ãƒ•ã‚§ãƒ¼ã‚º(0ã€œVague+255)
 
-	iTVPScanLineProvider *Ruleimg;	// ƒOƒŒ[ƒXƒP[ƒ‹‚Åƒuƒ‰[‚³‚ê‚½ƒ‹[ƒ‹‰æ‘œ
-	double        CurRatio;		// Œ»İ‚Ì•Ï‰»—¦
-	double        Accel;		// dim‚·‚é‰Á‘¬“xBdef=1.0A<-1‚ÅÅ‰’x‚­ÅŒã‘‚¢A>1‚ÅÅ‰‘‚­ÅŒã’x‚¢
-	tjs_uint32    BlendTable[256];	// Universal Transition‚ÌƒuƒŒƒ“ƒhƒe[ƒuƒ‹
+	iTVPScanLineProvider *Ruleimg;	// ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ã§ãƒ–ãƒ©ãƒ¼ã•ã‚ŒãŸãƒ«ãƒ¼ãƒ«ç”»åƒ
+	double        CurRatio;		// ç¾åœ¨ã®å¤‰åŒ–ç‡
+	double        Accel;		// dimã™ã‚‹åŠ é€Ÿåº¦ã€‚def=1.0ã€<-1ã§æœ€åˆé…ãæœ€å¾Œæ—©ã„ã€>1ã§æœ€åˆæ—©ãæœ€å¾Œé…ã„
+	tjs_uint32    BlendTable[256];	// Universal Transitionã®ãƒ–ãƒ¬ãƒ³ãƒ‰ãƒ†ãƒ¼ãƒ–ãƒ«
 	tjs_int       Vague;
 
-	// Œ»İ‚ÌRatio(0`1.0)‚ğ‹‚ß‚é
+	// ç¾åœ¨ã®Ratio(0ã€œ1.0)ã‚’æ±‚ã‚ã‚‹
 	inline double setCurrentRatio()
 	{
 		double ratio = (double)CurTime/Time;
-		// ratio = 0`1.0
+		// ratio = 0ã€œ1.0
 		ratio = (ratio < 0.0) ? 0.0 : (ratio > 1.0) ? 1.0 : ratio;
 	
-		if(Accel > 1.0)				// ‰ºŒ·(Å‰’x‚­™X‚É‘‚­)
+		if(Accel > 1.0)				// ä¸‹å¼¦(æœ€åˆé…ãå¾ã€…ã«æ—©ã)
 			ratio = pow(ratio, Accel);
-		else if(Accel < -1.0) {	// ãŒ·(Å‰‘‚­™X‚É’x‚­)
+		else if(Accel < -1.0) {	// ä¸Šå¼¦(æœ€åˆæ—©ãå¾ã€…ã«é…ã)
 			ratio = 1.0 - ratio;
 			ratio = pow(ratio, -Accel);
 			ratio = 1.0 - ratio;
@@ -79,7 +79,7 @@ protected:
 	}
 
 public:
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	tTVPDimTransHandler(iTVPScanLineProvider *ruleimg, tjs_uint64 time, tjs_int vague, tTVPLayerType layertype,
 		tjs_int width, tjs_int height, double accel)
 	{
@@ -104,16 +104,16 @@ public:
 
 	tjs_error TJS_INTF_METHOD AddRef()
 	{
-		// iTVPBaseTransHandler ‚Ì AddRef
-		// QÆƒJƒEƒ“ƒ^‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+		// iTVPBaseTransHandler ã® AddRef
+		// å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
 		RefCount ++;
 		return TJS_S_OK;
 	}
 
 	tjs_error TJS_INTF_METHOD Release()
 	{
-		// iTVPBaseTransHandler ‚Ì Release
-		// QÆƒJƒEƒ“ƒ^‚ğƒfƒNƒŠƒƒ“ƒg‚µA0 ‚É‚È‚é‚È‚ç‚Î delete this
+		// iTVPBaseTransHandler ã® Release
+		// å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã€0 ã«ãªã‚‹ãªã‚‰ã° delete this
 		if(RefCount == 1) {
 			delete this;
 		} else {
@@ -127,8 +127,8 @@ public:
 			/*in*/iTVPSimpleOptionProvider *options // option provider
 		)
 	{
-		// iTVPBaseTransHandler ‚Ì SetOption
-		// ‚Æ‚­‚É‚â‚é‚±‚Æ‚È‚µ
+		// iTVPBaseTransHandler ã® SetOption
+		// ã¨ãã«ã‚„ã‚‹ã“ã¨ãªã—
 		return TJS_S_OK;
 	}
 
@@ -146,7 +146,7 @@ public:
 			iTVPScanLineProvider * src1,
 			iTVPScanLineProvider * src2)
 	{
-		*dest = src2; // í‚ÉÅI‰æ‘œ‚Í src2
+		*dest = src2; // å¸¸ã«æœ€çµ‚ç”»åƒã¯ src2
 		return TJS_S_OK;
 	}
 };
@@ -155,22 +155,22 @@ public:
 //---------------------------------------------------------------------------
 tjs_error TJS_INTF_METHOD tTVPDimTransHandler::StartProcess(tjs_uint64 tick)
 {
-	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚Ì‰æ–ÊXVˆê‰ñ‚²‚Æ‚ÉŒÄ‚Î‚ê‚é
+	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®ç”»é¢æ›´æ–°ä¸€å›ã”ã¨ã«å‘¼ã°ã‚Œã‚‹
 
-	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚Ì‰æ–ÊXVˆê‰ñ‚É‚Â‚«A‚Ü‚¸Å‰‚É StartProcess ‚ªŒÄ‚Î‚ê‚é
-	// ‚»‚Ì‚ ‚Æ Process ‚ª•¡”‰ñŒÄ‚Î‚ê‚é ( —Ìˆæ‚ğ•ªŠ„ˆ—‚µ‚Ä‚¢‚éê‡ )
-	// ÅŒã‚É EndProcess ‚ªŒÄ‚Î‚ê‚é
+	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®ç”»é¢æ›´æ–°ä¸€å›ã«ã¤ãã€ã¾ãšæœ€åˆã« StartProcess ãŒå‘¼ã°ã‚Œã‚‹
+	// ãã®ã‚ã¨ Process ãŒè¤‡æ•°å›å‘¼ã°ã‚Œã‚‹ ( é ˜åŸŸã‚’åˆ†å‰²å‡¦ç†ã—ã¦ã„ã‚‹å ´åˆ )
+	// æœ€å¾Œã« EndProcess ãŒå‘¼ã°ã‚Œã‚‹
 
-	if (First) {	// Å‰‚ÌÀs
+	if (First) {	// æœ€åˆã®å®Ÿè¡Œ
 		StartTick = tick;
 		First = false;
 	}
 
-	// ‰æ‘œ‰‰Z‚É•K—v‚ÈŠeƒpƒ‰ƒ[ƒ^‚ğŒvZ
+	// ç”»åƒæ¼”ç®—ã«å¿…è¦ãªå„ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨ˆç®—
 	CurTime = ((tjs_int64)tick - StartTick);
 	if (CurTime > Time) CurTime = Time;
 
-	// CurRatioŒvZ
+	// CurRatioè¨ˆç®—
 	setCurrentRatio();
 	Phase = (tjs_int)(CurRatio*(255+Vague));
 
@@ -187,9 +187,9 @@ tjs_error TJS_INTF_METHOD tTVPDimTransHandler::StartProcess(tjs_uint64 tick)
 //---------------------------------------------------------------------------
 tjs_error TJS_INTF_METHOD tTVPDimTransHandler::EndProcess()
 {
-	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚Ì‰æ–ÊXVˆê‰ñ•ª‚ªI‚í‚é‚²‚Æ‚ÉŒÄ‚Î‚ê‚é
+	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®ç”»é¢æ›´æ–°ä¸€å›åˆ†ãŒçµ‚ã‚ã‚‹ã”ã¨ã«å‘¼ã°ã‚Œã‚‹
 
-	if(CurRatio >= 1.0) return TJS_S_FALSE; // ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“I—¹
+	if(CurRatio >= 1.0) return TJS_S_FALSE; // ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³çµ‚äº†
 
 	return TJS_S_TRUE;
 }
@@ -199,11 +199,11 @@ tjs_error TJS_INTF_METHOD tTVPDimTransHandler::EndProcess()
 tjs_error TJS_INTF_METHOD tTVPDimTransHandler::Process(
 			tTVPDivisibleData *data)
 {
-	// ƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚ÌŠe—Ìˆæ‚²‚Æ‚ÉŒÄ‚Î‚ê‚é
-	// ‹g—¢‹g—¢‚Í‰æ–Ê‚ğXV‚·‚é‚Æ‚«‚É‚¢‚­‚Â‚©‚Ì—Ìˆæ‚É•ªŠ„‚µ‚È‚ª‚çˆ—‚ğs‚¤‚Ì‚Å
-	// ‚±‚Ìƒƒ\ƒbƒh‚Í’ÊíA‰æ–ÊXVˆê‰ñ‚É‚Â‚«•¡”‰ñŒÄ‚Î‚ê‚é
+	// ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®å„é ˜åŸŸã”ã¨ã«å‘¼ã°ã‚Œã‚‹
+	// å‰é‡Œå‰é‡Œã¯ç”»é¢ã‚’æ›´æ–°ã™ã‚‹ã¨ãã«ã„ãã¤ã‹ã®é ˜åŸŸã«åˆ†å‰²ã—ãªãŒã‚‰å‡¦ç†ã‚’è¡Œã†ã®ã§
+	// ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã¯é€šå¸¸ã€ç”»é¢æ›´æ–°ä¸€å›ã«ã¤ãè¤‡æ•°å›å‘¼ã°ã‚Œã‚‹
 
-	// data ‚É‚Í—Ìˆæ‚â‰æ‘œ‚ÉŠÖ‚·‚éî•ñ‚ª“ü‚Á‚Ä‚¢‚é
+	// data ã«ã¯é ˜åŸŸã‚„ç”»åƒã«é–¢ã™ã‚‹æƒ…å ±ãŒå…¥ã£ã¦ã„ã‚‹
 
 	if (CurRatio == 0.0) {
 		data->Dest     = data->Src1;
@@ -221,7 +221,7 @@ tjs_error TJS_INTF_METHOD tTVPDimTransHandler::Process(
 }
 //---------------------------------------------------------------------------
 
-// Univeral Transtion‚Æ“¯‚¶Blend()ŠÖ”‚ğ‚»‚Ì‚Ü‚Üg‚¤
+// Univeral Transtionã¨åŒã˜Blend()é–¢æ•°ã‚’ãã®ã¾ã¾ä½¿ã†
 void tTVPDimTransHandler::Blend(tTVPDivisibleData *data)
 {
 	// blend the image according with the rule graphic
@@ -235,7 +235,7 @@ void tTVPDimTransHandler::Blend(tTVPDivisibleData *data)
 	data->Src2->GetScanLine(data->Src2Top, (const void**)&src2);
 	Ruleimg->GetScanLine(data->Top, (const void**)&rule);
 
-	/* ƒ‹[ƒ‹‰æ‘œ•\¦—p
+	/* ãƒ«ãƒ¼ãƒ«ç”»åƒè¡¨ç¤ºç”¨
 	for (int y = 0; y < data->Height; y++) {
 		data->Dest->GetScanLineForWrite(data->DestTop+y, (void**)&dest);
 		Ruleimg->GetScanLine(data->Top+y, (const void**)&rule);
@@ -324,7 +324,7 @@ void tTVPDimTransHandler::Blend(tTVPDivisibleData *data)
 //---------------------------------------------------------------------------
 class tTVPDimTransHandlerProvider : public iTVPTransHandlerProvider
 {
-	tjs_uint RefCount; // QÆƒJƒEƒ“ƒ^
+	tjs_uint RefCount; // å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿
 
 	inline void addALineToIntegralImage8(DWORD *dst, DWORD *dstprev, BYTE *src, tjs_int srcwidth, tjs_int xblur);
 	inline void drawALineFromIntegralImageToImage8(BYTE *dst, tjs_int dstwidth, DWORD *src1, DWORD *src2, tjs_int xblur, tjs_int sq);
@@ -336,16 +336,16 @@ public:
 
 	tjs_error TJS_INTF_METHOD AddRef()
 	{
-		// iTVPBaseTransHandler ‚Ì AddRef
-		// QÆƒJƒEƒ“ƒ^‚ğƒCƒ“ƒNƒŠƒƒ“ƒg
+		// iTVPBaseTransHandler ã® AddRef
+		// å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆ
 		RefCount ++;
 		return TJS_S_OK;
 	}
 
 	tjs_error TJS_INTF_METHOD Release()
 	{
-		// iTVPBaseTransHandler ‚Ì Release
-		// QÆƒJƒEƒ“ƒ^‚ğƒfƒNƒŠƒƒ“ƒg‚µA0 ‚É‚È‚é‚È‚ç‚Î delete this
+		// iTVPBaseTransHandler ã® Release
+		// å‚ç…§ã‚«ã‚¦ãƒ³ã‚¿ã‚’ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã—ã€0 ã«ãªã‚‹ãªã‚‰ã° delete this
 		if(RefCount == 1)
 			delete this;
 		else
@@ -356,7 +356,7 @@ public:
 	tjs_error TJS_INTF_METHOD GetName(
 			/*out*/const tjs_char ** name)
 	{
-		// ‚±‚Ìƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“‚Ì–¼‘O‚ğ•Ô‚·
+		// ã“ã®ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ã®åå‰ã‚’è¿”ã™
 		if(name) *name = TJS_W("dim");
 		return TJS_S_OK;
 	}
@@ -380,17 +380,17 @@ public:
 		if(!options) return TJS_E_FAIL;
 
 		if(src1w != src2w || src1h != src2h)
-			return TJS_E_FAIL; // src1 ‚Æ src2 ‚ÌƒTƒCƒY‚ªˆê’v‚µ‚Ä‚¢‚È‚¢‚Æ‘Ê–Ú
+			return TJS_E_FAIL; // src1 ã¨ src2 ã®ã‚µã‚¤ã‚ºãŒä¸€è‡´ã—ã¦ã„ãªã„ã¨é§„ç›®
 
-		// ƒIƒvƒVƒ‡ƒ“‚ğ“¾‚é
+		// ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’å¾—ã‚‹
 		tTJSVariant tmp;
 
 		if(TJS_FAILED(options->GetValue(TJS_W("time"), &tmp)))
-			return TJS_E_FAIL; // time ‘®«‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢
+			return TJS_E_FAIL; // time å±æ€§ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„
 		if(tmp.Type() == tvtVoid)
 			return TJS_E_FAIL;
 		tjs_int64 time = (tjs_int64)tmp;
-		if(time < 2) time = 2; // ‚ ‚Ü‚è¬‚³‚È”’l‚ğw’è‚·‚é‚Æ–â‘è‚ª‹N‚«‚é‚Ì‚Å
+		if(time < 2) time = 2; // ã‚ã¾ã‚Šå°ã•ãªæ•°å€¤ã‚’æŒ‡å®šã™ã‚‹ã¨å•é¡ŒãŒèµ·ãã‚‹ã®ã§
 
 		tjs_int vague = 64;
 		if(TJS_SUCCEEDED(options->GetValue(TJS_W("vague"), &tmp)))
@@ -416,19 +416,19 @@ public:
 
 		tjs_error er = options->GetAsString(TJS_W("rule"), &rulename);
 		if(TJS_FAILED(er))
-			TVPThrowExceptionMessage(TJS_W("ƒIƒvƒVƒ‡ƒ“ %1 ‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢"), TJS_W("rule"));
+			TVPThrowExceptionMessage(TJS_W("ã‚ªãƒ—ã‚·ãƒ§ãƒ³ %1 ã‚’æŒ‡å®šã—ã¦ãã ã•ã„"), TJS_W("rule"));
 		iTVPScanLineProvider *ruleimg;
 		er = imagepro->LoadImage(rulename, 8, 0x02ffffff, src1w, src1h, &ruleimg);
 		if(TJS_FAILED(er))
-			TVPThrowExceptionMessage(TJS_W("ƒ‹[ƒ‹‰æ‘œ %1 ‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñ"), rulename);
+			TVPThrowExceptionMessage(TJS_W("ãƒ«ãƒ¼ãƒ«ç”»åƒ %1 ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“"), rulename);
 
 		DoBoxBlur(ruleimg, xblur, yblur);
-		// ”½“]‚ª•K—v‚È‚ç”½“]‚·‚é
+		// åè»¢ãŒå¿…è¦ãªã‚‰åè»¢ã™ã‚‹
 		if(TJS_SUCCEEDED(options->GetValue(TJS_W("neg"), &tmp)))
 			if(tmp.Type() != tvtVoid)
 				NegateGrayImage(ruleimg);
 
-		// ƒIƒuƒWƒFƒNƒg‚ğì¬
+		// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆ
 		try {
 			*handler = new tTVPDimTransHandler(ruleimg, time, vague, layertype, src1w, src1h, accel);
 		} catch(...) {
@@ -443,7 +443,7 @@ public:
 } static * DimTransHandlerProvider;
 
 
-// Integral Image dst ‚ÉAsrc ‚©‚çˆêƒ‰ƒCƒ“’Ç‰Á‚·‚éB
+// Integral Image dst ã«ã€src ã‹ã‚‰ä¸€ãƒ©ã‚¤ãƒ³è¿½åŠ ã™ã‚‹ã€‚
 inline void tTVPDimTransHandlerProvider::addALineToIntegralImage8(DWORD *dst, DWORD *dstprev, BYTE *src, tjs_int srcwidth, tjs_int xblur)
 {
 	DWORD sum = 0;
@@ -511,7 +511,7 @@ inline void tTVPDimTransHandlerProvider::addALineToIntegralImage8(DWORD *dst, DW
 }
 
 
-// ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW‚©‚çAƒuƒ‰[‚µ‚½‰æ‘œ‚ğˆêƒ‰ƒCƒ“ì¬‚·‚é
+// ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸ã‹ã‚‰ã€ãƒ–ãƒ©ãƒ¼ã—ãŸç”»åƒã‚’ä¸€ãƒ©ã‚¤ãƒ³ä½œæˆã™ã‚‹
 inline void tTVPDimTransHandlerProvider::drawALineFromIntegralImageToImage8(BYTE *dst, tjs_int dstwidth, DWORD *src1, DWORD *src2, tjs_int xblur, tjs_int sq)
 {
 	int xblurwidth = xblur*2+1;
@@ -586,18 +586,18 @@ void tTVPDimTransHandlerProvider::DoBoxBlur(iTVPScanLineProvider *img, tjs_int x
 {
 	tjs_int width, height, pitch;
 	img->GetWidth(&width), img->GetHeight(&height), img->GetPitchBytes(&pitch);
-	// iimg = ƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW
+	// iimg = ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸
 	int  iimgwidth = width+xblur*2+1;
 	int  iimgpitch = iimgwidth*sizeof(DWORD);
 	int  iimgsiz   = (yblur*2+1+1)*iimgpitch;
 	BYTE *iimg     = (BYTE*)TJSAlignedAlloc(iimgsiz, 4);
-	// Å‰‚ÌƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW((xblur*2+1)x(yblur*2+1))ì¬
+	// æœ€åˆã®ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸((xblur*2+1)x(yblur*2+1))ä½œæˆ
 
 	DWORD *iimgp = (DWORD*)iimg;
-	// Å‰‚Ì—ñ‚Í0‚Å–„‚ß‚é
+	// æœ€åˆã®åˆ—ã¯0ã§åŸ‹ã‚ã‚‹
 	for	(int x = -xblur-1; x < width+xblur; x++)
 		*iimgp++ = 0;
-	// Ÿ‚©‚ç‚Ì—ñ‚Íu‚±‚±‚Ü‚Å‚Ì˜av{uˆê‚Âã‚Ì’lv
+	// æ¬¡ã‹ã‚‰ã®åˆ—ã¯ã€Œã“ã“ã¾ã§ã®å’Œã€ï¼‹ã€Œä¸€ã¤ä¸Šã®å€¤ã€
 	BYTE *src;
 	for (int y = -yblur; y < yblur+1 ; y++) {
 		img->GetScanLine(y, (const void**)&src);
@@ -608,19 +608,19 @@ void tTVPDimTransHandlerProvider::DoBoxBlur(iTVPScanLineProvider *img, tjs_int x
 		iimgp = (DWORD*)(iimg + (yblur+1+y)*iimgpitch);
 		addALineToIntegralImage8(iimgp, (DWORD*)((BYTE*)iimgp-iimgpitch), src, width, xblur);
 	}
-	// ‚±‚ê‚ÅÅ‰‚ÌƒCƒ“ƒeƒOƒ‰ƒ‹ƒCƒ[ƒW(iimgwidth x yblur*2+1+1) ‚ª iimg ˆÈ‰º‚É‚Å‚«‚½
+	// ã“ã‚Œã§æœ€åˆã®ã‚¤ãƒ³ãƒ†ã‚°ãƒ©ãƒ«ã‚¤ãƒ¡ãƒ¼ã‚¸(iimgwidth x yblur*2+1+1) ãŒ iimg ä»¥ä¸‹ã«ã§ããŸ
 
 	int sq = (xblur*2+1)*(yblur*2+1);
 	int xblurwidth = (xblur*2+1)*sizeof(DWORD);
 	BYTE *dst;
-	// ãE‰ºƒ|ƒCƒ“ƒ^
+	// ä¸Šãƒ»ä¸‹ãƒã‚¤ãƒ³ã‚¿
 	DWORD *iimgp1 = (DWORD*)iimg, *iimgp2 = (DWORD*)(iimg+(yblur*2+1)*iimgpitch);
 	for (int y = 0; y < height; y++) {
-		// ¡‚ÌIntegralImage‚Å•`‰æ
+		// ä»Šã®IntegralImageã§æç”»
 		img->GetScanLineForWrite(y, (void**)&dst);
 		drawALineFromIntegralImageToImage8(dst, width, iimgp1, iimgp2, xblur, sq);
-		// ª4000/6800 ‚­‚ç‚¢‚Ìd‚³
-		// V‚µ‚¢ƒ‰ƒCƒ“‚ğ’Ç‰Á‚·‚é
+		// â†‘4000/6800 ãã‚‰ã„ã®é‡ã•
+		// æ–°ã—ã„ãƒ©ã‚¤ãƒ³ã‚’è¿½åŠ ã™ã‚‹
 		BYTE *imgyblurp;
 		img->GetScanLine(y+yblur+1, (const void**)&imgyblurp);
 		if (y+yblur+1 >= height)
@@ -630,7 +630,7 @@ void tTVPDimTransHandlerProvider::DoBoxBlur(iTVPScanLineProvider *img, tjs_int x
 		iimgp1 = (DWORD*)((BYTE*)iimgp1 + iimgpitch);
 		if ((BYTE*)iimgp1 >= iimg+iimgsiz)
 			iimgp1 = (DWORD*)iimg;
-		// ª1000/6800 ‚­‚ç‚¢‚Ìd‚³
+		// â†‘1000/6800 ãã‚‰ã„ã®é‡ã•
 	}
 	TJSAlignedDealloc(iimg);
 }
@@ -654,16 +654,16 @@ void tTVPDimTransHandlerProvider::NegateGrayImage(iTVPScanLineProvider *img)
 //---------------------------------------------------------------------------
 void RegisterDimTransHandlerProvider()
 {
-	// TVPAddTransHandlerProvider ‚ğg‚Á‚Äƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒnƒ“ƒhƒ‰ƒvƒƒoƒCƒ_‚ğ
-	// “o˜^‚·‚é
+	// TVPAddTransHandlerProvider ã‚’ä½¿ã£ã¦ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ©ãƒ—ãƒ­ãƒã‚¤ãƒ€ã‚’
+	// ç™»éŒ²ã™ã‚‹
 	DimTransHandlerProvider = new tTVPDimTransHandlerProvider();
 	TVPAddTransHandlerProvider(DimTransHandlerProvider);
 }
 //---------------------------------------------------------------------------
 void UnregisterDimTransHandlerProvider()
 {
-	// TVPRemoveTransHandlerProvider ‚ğg‚Á‚Äƒgƒ‰ƒ“ƒWƒVƒ‡ƒ“ƒnƒ“ƒhƒ‰ƒvƒƒoƒCƒ_‚ğ
-	// “o˜^–•Á‚·‚é
+	// TVPRemoveTransHandlerProvider ã‚’ä½¿ã£ã¦ãƒˆãƒ©ãƒ³ã‚¸ã‚·ãƒ§ãƒ³ãƒãƒ³ãƒ‰ãƒ©ãƒ—ãƒ­ãƒã‚¤ãƒ€ã‚’
+	// ç™»éŒ²æŠ¹æ¶ˆã™ã‚‹
 	TVPRemoveTransHandlerProvider(DimTransHandlerProvider);
 	DimTransHandlerProvider->Release();
 }

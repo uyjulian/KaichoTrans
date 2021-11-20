@@ -19,7 +19,7 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName",      "KAICHO Soft"
-            VALUE "FileDescription",  "吉里吉里2用拡張トランジションdll"
+            VALUE "FileDescription",  "蜷蛾㈹蜷蛾㈹2逕ｨ諡｡蠑ｵ繝医Λ繝ｳ繧ｸ繧ｷ繝ｧ繝ｳdll"
             VALUE "FileVersion",      "0, 2, 5, 1\0"
 //            VALUE "InternalName",     "KaichoTrans\0"
             VALUE "LegalCopyright",   "Copyright (C) 2011-2015 KAICHO\0"
