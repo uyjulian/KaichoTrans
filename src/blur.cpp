@@ -115,7 +115,7 @@ BYTE* p;
 			tjs_uint32 *dst, tjs_int dstwidth,
 			IPIXELTYPE *src1, IPIXELTYPE *src2,
 			tjs_int xblur, tjs_int sq);
-	void tTVPBlurTransHandler::buildIntegralImage32(
+	void buildIntegralImage32(
 			IPIXELTYPE *dst, tjs_int dstpitch,
 			iTVPScanLineProvider *srcdat, tjs_int width, tjs_int height,
 			tjs_int xblur, tjs_int yblur);
